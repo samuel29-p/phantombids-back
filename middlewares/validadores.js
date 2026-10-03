@@ -1,4 +1,4 @@
-const { body, param } = require("express-validator");
+﻿const { body, param } = require("express-validator");
 
 //Auth 
 const validarRegistro = [
@@ -40,23 +40,6 @@ const validarUnirseCasa = [
   body("inviteCode").optional().isString().withMessage("El codigo de invitacion debe ser texto"),
 ];
 
-//Objects
-const validarObjeto = [
-  body("hauntHouseId").isMongoId().withMessage("hauntHouseId no es un id valido"),
-  body("name").trim().isLength({ min: 3 }).withMessage("El nombre del objeto debe tener al menos 3 caracteres"),
-  body("baseCurse").notEmpty().withMessage("baseCurse es obligatorio"),
-  body("minBid").isFloat({ min: 1, max: 100 }).withMessage("minBid debe estar entre 1 y 100"),
-  body("maxBid").isFloat({ min: 11, max: 500 }).withMessage("maxBid debe ser al menos minBid + 10, maximo 500"),
-  body("durationDays").isInt({ min: 1, max: 7 }).withMessage("durationDays debe estar entre 1 y 7"),
-];
-
-const validarObjetoActualizar = [
-  body("name").optional().trim().isLength({ min: 3 }).withMessage("El nombre del objeto debe tener al menos 3 caracteres"),
-  body("minBid").optional().isFloat({ min: 1, max: 100 }).withMessage("minBid debe estar entre 1 y 100"),
-  body("maxBid").optional().isFloat({ min: 11, max: 500 }).withMessage("maxBid debe ser al menos minBid + 10, maximo 500"),
-  body("durationDays").optional().isInt({ min: 1, max: 7 }).withMessage("durationDays debe estar entre 1 y 7"),
-];
-
 //cualquier ruta con /:id 
 const validarIdParam = [param("id").isMongoId().withMessage("El id no es valido")];
 
@@ -67,7 +50,5 @@ module.exports = {
   validarCasa,
   validarCasaActualizar,
   validarUnirseCasa,
-  validarObjeto,
-  validarObjetoActualizar,
   validarIdParam,
 };

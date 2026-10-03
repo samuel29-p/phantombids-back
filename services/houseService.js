@@ -1,8 +1,13 @@
-const crypto = require("crypto");
-const HauntHouse = require("../models/HauntHouse");
+﻿const HauntHouse = require("../models/HauntHouse");
 
+//arma un codigo de 6 caracteres al azar para las casas privadas
 function generarCodigoInvitacion() {
-  return crypto.randomBytes(3).toString("hex").toUpperCase();
+  const caracteres = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  let codigo = "";
+  for (let i = 0; i < 6; i++) {
+    codigo = codigo + caracteres[Math.floor(Math.random() * caracteres.length)];
+  }
+  return codigo;
 }
 
 async function crearCasa(datos, creadorId) {
@@ -48,7 +53,13 @@ async function actualizarCasa(id, datos, usuarioActual) {
     throw { status: 403, message: "Solo el HeadHaunter o un admin pueden editar la casa" };
   }
 
-  Object.assign(casa, datos);
+  //solo se cambian los datos de la casa, los miembros no se tocan aqui porque entran con join
+  const camposEditables = ["name", "theme", "description", "coverImageUrl", "isPrivate", "inviteCode"];
+  for (const campo of camposEditables) {
+    if (datos[campo] !== undefined) {
+      casa[campo] = datos[campo];
+    }
+  }
   await casa.save();
   return casa;
 }

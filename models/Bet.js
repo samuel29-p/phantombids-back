@@ -37,7 +37,7 @@ const betSchema = new mongoose.Schema(
       },
       default: "pending",
     },
-    //lo que se le devuelve al apostador, arranca en cero porque despues se suma en los rankings
+    //lo que se le devuelve al apostador, arranca en cero y se llena cuando se cierra la subasta
     payout: {
       type: Number,
       default: 0,
