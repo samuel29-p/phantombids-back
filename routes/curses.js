@@ -1,8 +1,12 @@
-const express = require("express");
-const router = express.Router();
-const { listarMaldiciones } = require("../controllers/objectController");
+﻿const express = require("express");
+const { CURSE_LIST } = require("../utils/curses");
 
-//publica, nadie necesita sesion para ver el catalogo
-router.get("/", listarMaldiciones);
+const router = express.Router();
+
+//GET /api/curses, el catalogo de las 8 maldiciones, requisito 9
+//es publico y no pasa por servicio porque es una lista fija que no vive en la base de datos
+router.get("/", (req, res) => {
+  res.status(200).json({ maldiciones: CURSE_LIST });
+});
 
 module.exports = router;

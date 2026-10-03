@@ -6,7 +6,11 @@
   "scripts": {
   "start": "node index.js",
   "dev": "nodemon index.js"
-},
+  },
+
+  "engines": {
+  "node": "22.x"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
