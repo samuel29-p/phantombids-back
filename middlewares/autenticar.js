@@ -19,7 +19,7 @@ const autenticar = asyncHandler(async (req, res, next) => {
     throw { status: 401, message: "Token invalido o expirado" };
   }
  
-  const usuario = await User.findById(payload.id).select("password");
+  const usuario = await User.findById(payload.id);
  
   if (!usuario) {
     throw { status: 401, message: "El usuario de este token ya no existe" };
