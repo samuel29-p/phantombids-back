@@ -43,10 +43,73 @@ const validarFiltros = [
   query("hauntHouseId").optional().isMongoId().withMessage("hauntHouseId debe ser un id valido"),
 ];
 
+/**
+ * @swagger
+ * tags:
+ *   name: Objects
+ *   description: Objetos malditos que se pueden subastar
+ */
+
+/**
+ * @swagger
+ * /api/objects:
+ *   get:
+ *     summary: Lista los objetos malditos, se puede filtrar por casa
+ *     tags: [Objects]
+ *     parameters: [{ in: query, name: hauntHouseId, schema: { type: string }, description: Id de la casa }]
+ *     responses:
+ *       "200": { description: Lista de objetos }
+ *       "401": { description: Falta el token o no es valido }
+ *   post:
+ *     summary: Crea un objeto maldito (hay que ser miembro de la casa)
+ *     tags: [Objects]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           example: { hauntHouseId: "6ac07c1f7d8bff4ce6f9e7ee", name: "Cursed Music Box", description: "Plays by itself at 3am", baseCurse: "LOSE_10_REPUTATION", minBid: 10, maxBid: 50, durationDays: 3 }
+ *     responses:
+ *       "201": { description: Objeto creado }
+ *       "400": { description: Datos invalidos, o maxBid menor a minBid mas 10 }
+ *       "403": { description: No eres miembro de la casa }
+ *       "404": { description: La casa no existe }
+ */
 //el orden en cada ruta es siempre el mismo: reglas, validar, y por ultimo el controlador
 router.get("/", validarFiltros, validar, controller.listar);
-router.get("/:id", validarId, validar, controller.obtener);
 router.post("/", validarCrear, validar, controller.crear);
+
+/**
+ * @swagger
+ * /api/objects/{id}:
+ *   get:
+ *     summary: Obtiene un objeto por su id
+ *     tags: [Objects]
+ *     parameters: [{ in: path, name: id, required: true, schema: { type: string } }]
+ *     responses:
+ *       "200": { description: El objeto }
+ *       "400": { description: El id no es valido }
+ *       "404": { description: Objeto no encontrado }
+ *   put:
+ *     summary: Edita un objeto (su creador o un admin)
+ *     tags: [Objects]
+ *     parameters: [{ in: path, name: id, required: true, schema: { type: string } }]
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           example: { name: "Cursed Music Box Deluxe", description: "Now it also screams" }
+ *     responses:
+ *       "200": { description: Objeto editado }
+ *       "403": { description: No eres el creador ni admin }
+ *   delete:
+ *     summary: Borra un objeto (su creador o un admin), no se puede si esta en subasta abierta
+ *     tags: [Objects]
+ *     parameters: [{ in: path, name: id, required: true, schema: { type: string } }]
+ *     responses:
+ *       "200": { description: Objeto eliminado }
+ *       "403": { description: No eres el creador ni admin }
+ *       "409": { description: El objeto esta en una subasta abierta }
+ */
+router.get("/:id", validarId, validar, controller.obtener);
 router.put("/:id", validarId, validarEditar, validar, controller.actualizar);
 router.delete("/:id", validarId, validar, controller.eliminar);
 

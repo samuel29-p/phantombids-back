@@ -2,6 +2,8 @@
 const cors = require("cors");
 const morgan = require("morgan");
 const errorHandler = require("./middlewares/errorHandler");
+const swaggerUi = require("swagger-ui-express");
+const swaggerSpec = require("./config/swagger");
 
 //primero se crea la app, y solo despues se le pueden agregar cosas con app.use
 const app = express();
@@ -21,6 +23,7 @@ app.get("/", (req, res) => {
   res.json({
     mensaje: "API de PhantomBids",
     version: "1.0.0",
+    documentacion: "/api-docs",
   });
 });
 
@@ -31,6 +34,9 @@ app.use("/api/houses", require("./routes/houses"));
 app.use("/api/objects", require("./routes/cursedObjects"));
 app.use("/api/auctions", require("./routes/auctions"));
 app.use("/api/curses", require("./routes/curses"));
+
+//la documentacion de swagger, se abre en el navegador en /api-docs
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 //si la peticion no entro en ninguna ruta de arriba, llega aca y se responde 404
 app.use((req, res) => {
