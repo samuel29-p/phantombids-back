@@ -5,7 +5,7 @@ function errorHandler(err, req, res, next) {
 
   //los errores que lanzamos nosotros en los servicios, con throw { status, message }
   if (err.status) {
-    return res.status(err.status).json({ error: err.message });
+    return res.status(err.status).json({ error: err.message, detalles: err.detalles });
   }
 
   //mongoose rechazo los datos porque no cumplen el schema, por ejemplo falta un campo required

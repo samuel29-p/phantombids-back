@@ -1,4 +1,4 @@
-const express = require("express");
+﻿const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
 const errorHandler = require("./middlewares/errorHandler");
@@ -24,10 +24,10 @@ app.get("/", (req, res) => {
   });
 });
 
-//aqui se van a registrar las rutas de cada recurso a medida que las hagamos, por ejemplo
-//app.use("/api/auctions", require("./routes/auctions"));
+//aqui se registran las rutas de cada recurso
 app.use("/api/auth", require("./routes/auth"));
-//app.use("/api/users", require("./routes/users"));
+app.use("/api/users", require("./routes/users"));
+app.use("/api/houses", require("./routes/houses"));
 app.use("/api/objects", require("./routes/cursedObjects"));
 app.use("/api/auctions", require("./routes/auctions"));
 app.use("/api/curses", require("./routes/curses"));
