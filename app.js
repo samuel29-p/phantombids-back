@@ -27,7 +27,10 @@ app.get("/", (req, res) => {
 //aqui se van a registrar las rutas de cada recurso a medida que las hagamos, por ejemplo
 //app.use("/api/auctions", require("./routes/auctions"));
 app.use("/api/auth", require("./routes/auth"));
-app.use("/api/users", require("./routes/users"));
+//app.use("/api/users", require("./routes/users"));
+app.use("/api/objects", require("./routes/cursedObjects"));
+app.use("/api/auctions", require("./routes/auctions"));
+app.use("/api/curses", require("./routes/curses"));
 
 //si la peticion no entro en ninguna ruta de arriba, llega aca y se responde 404
 app.use((req, res) => {
