@@ -1,5 +1,6 @@
 ﻿const asyncHandler = require("../utils/asyncHandler");
 const auctionService = require("../services/auctionService");
+const closeService = require("../services/closeService");
 
 //GET /api/auctions
 const listar = asyncHandler(async (req, res) => {
@@ -31,4 +32,10 @@ const eliminar = asyncHandler(async (req, res) => {
   res.status(200).json({ mensaje: "Subasta eliminada" });
 });
 
-module.exports = { listar, obtener, crear, actualizar, eliminar };
+//POST /api/auctions/:id/close
+const cerrar = asyncHandler(async (req, res) => {
+  const resultado = await closeService.cerrarSubasta(req.params.id, req.usuario);
+  res.status(200).json(resultado);
+});
+
+module.exports = { listar, obtener, crear, actualizar, eliminar, cerrar };
