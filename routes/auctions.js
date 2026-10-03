@@ -38,6 +38,9 @@ router.put("/:id", validarId, validarEditar, validar, controller.actualizar);
 //borrar una subasta es solo para admin, aqui se ve el middleware autorizar en accion
 router.delete("/:id", autorizar("admin"), validarId, validar, controller.eliminar);
 
+//cerrar la subasta decide el ganador y aplica la maldicion, lo puede hacer el creador o un admin
+router.post("/:id/close", validarId, validar, controller.cerrar);
+
 //las pujas viven dentro de una subasta, por eso la ruta es /api/auctions/:id/bids
 router.post("/:id/bids", validarId, validarPuja, validar, bidController.pujar);
 router.get("/:id/bids", validarId, validar, bidController.listar);
