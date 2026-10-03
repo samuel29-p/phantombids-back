@@ -2,6 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
 const errorHandler = require("./middlewares/errorHandler");
+const swaggerUi = require("swagger-ui-express");
+const swaggerSpec = require("./config/swagger");
 
 //primero se crea la app, y solo despues se le pueden agregar cosas con app.use
 const app = express();
@@ -28,6 +30,7 @@ app.get("/", (req, res) => {
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/users", require("./routes/users"));
 app.use("/api/houses", require("./routes/houses"));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 //si la peticion no entro en ninguna ruta de arriba, llega aca y se responde 404
 app.use((req, res) => {
