@@ -11,7 +11,7 @@ Proyecto de Ingenieria Web, Universidad EIA. Entrega 2: backend.
 | API desplegada en Render | https://phantombids-back.onrender.com |
 | Documentacion Swagger | https://phantombids-back.onrender.com/api-docs |
 | Repositorio | https://github.com/samuel29-p/phantombids-back |
-| Colecciones de Postman | `PhantomBids.postman_collection.json` (todas las rutas y errores) y `PhantomBids-ciclo-completo.postman_collection.json` (ciclo completo de subasta: pujas, apuestas y cierre) en la raiz del repositorio |
+| Coleccion de Postman | `PhantomBids.postman_collection.json` en la raiz del repositorio, se corre en orden con el Runner de Postman |
 
 El plan gratis de Render se duerme despues de 15 minutos sin uso, asi que la primera peticion puede tardar cerca de un minuto.
 
