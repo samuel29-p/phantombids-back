@@ -2,7 +2,7 @@
 const { body, param, query } = require("express-validator");
 const autenticar = require("../middlewares/autenticar");
 const autorizar = require("../middlewares/autorizar");
-const validar = require("../middlewares/validar");
+const validarCampos = require("../middlewares/validarCampos");
 const controller = require("../controllers/auctionController");
 const bidController = require("../controllers/bidController");
 const betController = require("../controllers/betController");
@@ -67,8 +67,8 @@ const validarFiltros = [
  *       "403": { description: No eres miembro de la casa }
  *       "409": { description: El objeto ya esta en una subasta abierta }
  */
-router.get("/", validarFiltros, validar, controller.listar);
-router.post("/", validarCrear, validar, controller.crear);
+router.get("/", validarFiltros, validarCampos, controller.listar);
+router.post("/", validarCrear, validarCampos, controller.crear);
 
 /**
  * @swagger
@@ -101,10 +101,10 @@ router.post("/", validarCrear, validar, controller.crear);
  *       "200": { description: Subasta eliminada }
  *       "403": { description: Solo un admin puede borrar subastas }
  */
-router.get("/:id", validarId, validar, controller.obtener);
-router.put("/:id", validarId, validarEditar, validar, controller.actualizar);
+router.get("/:id", validarId, validarCampos, controller.obtener);
+router.put("/:id", validarId, validarEditar, validarCampos, controller.actualizar);
 //borrar una subasta es solo para admin, aqui se ve el middleware autorizar en accion
-router.delete("/:id", autorizar("admin"), validarId, validar, controller.eliminar);
+router.delete("/:id", autorizar("admin"), validarId, validarCampos, controller.eliminar);
 
 /**
  * @swagger
@@ -119,7 +119,7 @@ router.delete("/:id", autorizar("admin"), validarId, validar, controller.elimina
  *       "409": { description: La subasta ya estaba cerrada }
  */
 //cerrar la subasta decide el ganador y aplica la maldicion, lo puede hacer el creador o un admin
-router.post("/:id/close", validarId, validar, controller.cerrar);
+router.post("/:id/close", validarId, validarCampos, controller.cerrar);
 
 /**
  * @swagger
@@ -146,8 +146,8 @@ router.post("/:id/close", validarId, validar, controller.cerrar);
  *       "409": { description: Ya pujaste o la subasta no esta abierta }
  */
 //las pujas viven dentro de una subasta, por eso la ruta es /api/auctions/:id/bids
-router.post("/:id/bids", validarId, validarPuja, validar, bidController.pujar);
-router.get("/:id/bids", validarId, validar, bidController.listar);
+router.post("/:id/bids", validarId, validarPuja, validarCampos, bidController.pujar);
+router.get("/:id/bids", validarId, validarCampos, bidController.listar);
 
 /**
  * @swagger
@@ -175,7 +175,7 @@ router.get("/:id/bids", validarId, validar, bidController.listar);
  *       "409": { description: Ya apostaste o la subasta no esta abierta }
  */
 //las apuestas tambien viven dentro de una subasta
-router.post("/:id/bets", validarId, validarApuesta, validar, betController.apostar);
-router.get("/:id/bets", validarId, validar, betController.listar);
+router.post("/:id/bets", validarId, validarApuesta, validarCampos, betController.apostar);
+router.get("/:id/bets", validarId, validarCampos, betController.listar);
 
 module.exports = router;

@@ -1,7 +1,7 @@
 ﻿const express = require("express");
 const { body, param, query } = require("express-validator");
 const autenticar = require("../middlewares/autenticar");
-const validar = require("../middlewares/validar");
+const validarCampos = require("../middlewares/validarCampos");
 const { CURSE_CODES } = require("../utils/curses");
 const controller = require("../controllers/cursedObjectController");
 
@@ -74,9 +74,9 @@ const validarFiltros = [
  *       "403": { description: No eres miembro de la casa }
  *       "404": { description: La casa no existe }
  */
-//el orden en cada ruta es siempre el mismo: reglas, validar, y por ultimo el controlador
-router.get("/", validarFiltros, validar, controller.listar);
-router.post("/", validarCrear, validar, controller.crear);
+//el orden en cada ruta es siempre el mismo: reglas, validarCampos, y por ultimo el controlador
+router.get("/", validarFiltros, validarCampos, controller.listar);
+router.post("/", validarCrear, validarCampos, controller.crear);
 
 /**
  * @swagger
@@ -109,8 +109,8 @@ router.post("/", validarCrear, validar, controller.crear);
  *       "403": { description: No eres el creador ni admin }
  *       "409": { description: El objeto esta en una subasta abierta }
  */
-router.get("/:id", validarId, validar, controller.obtener);
-router.put("/:id", validarId, validarEditar, validar, controller.actualizar);
-router.delete("/:id", validarId, validar, controller.eliminar);
+router.get("/:id", validarId, validarCampos, controller.obtener);
+router.put("/:id", validarId, validarEditar, validarCampos, controller.actualizar);
+router.delete("/:id", validarId, validarCampos, controller.eliminar);
 
 module.exports = router;
