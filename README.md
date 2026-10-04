@@ -57,7 +57,7 @@ npm install
 
 ```
 PORT=3000
-MONGODB_URI=mongodb+srv://usuario:contrasena@cluster.mongodb.net/phantombids
+MONGODB_URI=pega_aqui_la_url_de_tu_cluster_de_atlas
 JWT_SECRET=una_clave_larga_y_secreta
 JWT_EXPIRES_IN=7d
 NODE_ENV=development
